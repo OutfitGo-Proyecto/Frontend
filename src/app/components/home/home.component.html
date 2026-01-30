@@ -1,0 +1,41 @@
+<div id="hey" class="element_pre">
+    <div class="element">
+        <div class="element__navigation element__navigation--first">
+            <a data-pos="#hey" href=""></a>
+            <img src="" />
+        </div>
+
+        <div class="element__caroussel">
+            <div *ngFor="let item of carouselItems" [ngClass]="item.position" (click)="onCarouselClick(item)">
+                <img [src]="item.src" alt="Carousel Image" />
+            </div>
+        </div>
+
+        <div class="element__description">
+            <h3>OUTFITGO</h3>
+            <p>2025 - MALAGA</p>
+            <p>Tu lo quieres, nosotros lo tenemos</p>
+            <a href="#" title="#">outfitgo.es</a>
+        </div>
+    </div>
+</div>
+
+<div class="featured-section">
+    <h2 class="featured-title">Productos Destacados</h2>
+    <div class="products-grid">
+        <div class="product-card" *ngFor="let product of featuredProducts">
+            <div class="product-image">
+                <img [src]="product.image" [alt]="product.name">
+            </div>
+            <div class="product-info">
+                <h3>{{product.name}}</h3>
+                <p>{{product.price | currency:'EUR'}}</p>
+                <button class="add-to-cart" (click)="addToCart(product)">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2025 OUTFITGO — Todos los derechos reservados
+</footer>

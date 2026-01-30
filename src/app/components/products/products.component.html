@@ -1,0 +1,80 @@
+<div class="catalog-container">
+    <!-- Sidebar Filters -->
+    <aside class="filters-sidebar">
+        <!-- <h3>FILTERS</h3> -->
+
+        <div class="filter-group">
+            <h4>Rango de Precio</h4>
+            <div class="price-inputs">
+                <input type="number" [(ngModel)]="minPrice" (change)="updateFilter()" placeholder="Mín">
+                <span>-</span>
+                <input type="number" [(ngModel)]="maxPrice" (change)="updateFilter()" placeholder="Máx">
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <h4>Tallas</h4>
+            <div *ngFor="let size of availableSizes" class="checkbox-item">
+                <label>
+                    <input type="checkbox" [(ngModel)]="selectedSizes[size]" (change)="updateFilter()">
+                    {{ size }}
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <h4>Colores</h4>
+            <div *ngFor="let color of availableColors" class="checkbox-item">
+                <label>
+                    <input type="checkbox" [(ngModel)]="selectedColors[color]" (change)="updateFilter()">
+                    {{ color }}
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-group">
+            <h4>Marcas</h4>
+            <div *ngFor="let brand of availableBrands" class="checkbox-item">
+                <label>
+                    <input type="checkbox" [(ngModel)]="selectedBrands[brand]" (change)="updateFilter()">
+                    {{ brand }}
+                </label>
+            </div>
+        </div>
+
+        <div class="sidebar-links">
+            <a routerLink="/" class="back-link">← Volver al Inicio</a>
+            <a routerLink="/cart" class="cart-link">
+                Ver Carrito
+                <span class="badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Product Grid -->
+    <main class="products-main">
+        <h2 class="category-title">{{ category ? (category === 'kids' ? 'COLECCIÓN INFANTIL' : (category === 'men' ?
+            'COLECCIÓN
+            HOMBRE' : 'COLECCIÓN MUJER')) : 'Resultados de búsqueda: ' + searchQuery }}</h2>
+
+        <div class="products-grid" *ngIf="filteredProducts.length > 0; else noProducts">
+            <div class="product-card" *ngFor="let product of filteredProducts">
+                <div class="product-image">
+                    <img [src]="product.image" [alt]="product.name">
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="price">{{ product.price | currency:'EUR' }}</p>
+                    <p class="brand">{{ product.brand }}</p>
+                    <button class="add-btn" (click)="addToCart(product)">Añadir al Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <ng-template #noProducts>
+            <div class="no-products">
+                <p>No se encontraron productos con estos filtros.</p>
+            </div>
+        </ng-template>
+    </main>
+</div>
