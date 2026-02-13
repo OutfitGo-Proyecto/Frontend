@@ -6,7 +6,7 @@ interface CarouselItem {
     position: 'left' | 'middle' | 'right';
 }
 
-import { Product } from '../../models/product.model';
+import { Product } from '../../interfaces/product.interface';
 import { CartService } from '../../services/cart.service';
 
 @Component({
