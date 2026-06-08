@@ -9,7 +9,7 @@ import { AddressSelectorComponent } from '../address-selector/address-selector.c
 @Component({
     selector: 'app-checkout-page',
     standalone: true,
-    imports: [AddressSelectorComponent, CurrencyPipe], 
+    imports: [AddressSelectorComponent, CurrencyPipe],
     templateUrl: './checkout-page.component.html'
 })
 export class CheckoutPageComponent implements OnInit {
@@ -19,7 +19,7 @@ export class CheckoutPageComponent implements OnInit {
 
     isProcessing = signal(false);
     selectedAddress = signal<UserAddress | null>(null);
-    
+
     couponCode = signal('');
     couponError = signal('');
     isApplyingCoupon = signal(false);
@@ -36,7 +36,7 @@ export class CheckoutPageComponent implements OnInit {
 
     applyCoupon() {
         if (!this.couponCode()) return;
-        
+
         this.isApplyingCoupon.set(true);
         this.couponError.set('');
 
@@ -47,11 +47,11 @@ export class CheckoutPageComponent implements OnInit {
             },
             error: (err) => {
                 this.isApplyingCoupon.set(false);
-                this.couponError.set(err.error?.message || 'Error al aplicar el cupón'); 
+                this.couponError.set(err.error?.message || 'Error al aplicar el cupón');
             }
         });
     }
-    
+
     removeCoupon() {
         this.cartService.appliedCoupon.set(null);
     }
@@ -71,17 +71,18 @@ export class CheckoutPageComponent implements OnInit {
         const itemsAngular = this.cartService.cartItems();
 
         console.log('MI CARRITO CRUDO ES:', itemsAngular);
-        
+
         const productosParaLaravel = itemsAngular.map(item => {
             return {
                 producto_variante_id: item.variante.id,
-                cantidad: item.cantidad 
+                cantidad: item.cantidad
             };
         });
 
         const payload = {
             address_id: this.selectedAddress()?.id,
-            productos: productosParaLaravel
+            productos: productosParaLaravel,
+            coupon_code: this.cartService.appliedCoupon()?.codigo || null
         };
 
         this.cartService.checkout(payload).subscribe({
